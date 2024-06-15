@@ -90,6 +90,11 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
       } else {
         final snapshote = await getSnapshoots(page);
         updateData(snapshote!);
+        if (snapshote.isNotEmpty) {
+          for (var element in snapshote) {
+            await saveLocal(element);
+          }
+        }
       }
     } catch (e, stk) {
       state = PaginationState.onGoingError(
